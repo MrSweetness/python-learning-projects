@@ -1,6 +1,6 @@
 import random
 
-supportedFunctions = ["calculator", "guessingGame"]
+supportedFunctions = ["calculator", "guessingGame", "passwordGenerator"]
 
 def calculate(num1, num2, operator):
     if operator == "+":
@@ -30,12 +30,24 @@ def guessingGame():
             print("Correct! It took you", attempts, "attempts")
             break
 
+def passwordGenerator():
+    password = ""
+
+    passCharacters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                      "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                      "$", "@", "#", "&", "*", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+    for i in range(16):
+        password += str(random.choice(passCharacters))
+
+    return password
+
 ###########################################################################################
 # Main function
 ###########################################################################################
 
 def main(funcSelection):
-    if funcSelection == "calculate" or "calculator":
+    if funcSelection == "calculator":
         num1 = float(input("Enter the first number: "))
         num2 = float(input("Enter the second number: "))
         operator = input("Enter the operator (+, -, *, /): ")
@@ -43,6 +55,8 @@ def main(funcSelection):
         print(answer)
     elif funcSelection == "guessingGame":
         guessingGame()
+    elif funcSelection == "passwordGenerator":
+        print("Your password is:", passwordGenerator())
 
 while True:
     userInput = input("Enter a function name or 'quit' to exit. Enter help to get more info: ")
