@@ -1,6 +1,6 @@
 import random
 
-supportedFunctions = ["calculator", "guessingGame", "passwordGenerator"]
+supportedFunctions = ["calculator", "guessingGame", "passwordGenerator", "rockPaperScissors"]
 
 def calculate(num1, num2, operator):
     if operator == "+":
@@ -42,6 +42,38 @@ def passwordGenerator(passwordLength):
 
     return password
 
+def rps():
+    while True:
+        userChoice = input("Enter rock, paper, or scissors: ")
+        choices = ["rock", "paper", "scissors"]
+        computerChoice = random.choice(choices)
+
+        if userChoice == computerChoice:
+            print("It's a tie!")
+        elif userChoice == "rock":
+            if computerChoice == "paper":
+                print("You lose! Paper covers rock")
+            else:
+                print("You win! Rock smashes scissors")
+        elif userChoice == "paper":
+            if computerChoice == "rock":
+                print("You win! Paper covers rock")
+            else:
+                print("You lose! Scissors cuts paper")
+        elif userChoice == "scissors":
+            if computerChoice == "rock":
+                print("You lose! Rock smashes scissors")
+            else:
+                print("You win! Scissors cuts paper")
+        else:
+            print("Invalid input")
+        
+        playAgain = input("Do you want to play again? (yes/no): ")
+        if playAgain == "no":
+            break
+        else:
+            continue
+
 ###########################################################################################
 # Main function
 ###########################################################################################
@@ -58,6 +90,8 @@ def main(funcSelection):
     elif funcSelection == "passwordGenerator":
         passwordLength = int(input("Enter the desired length of the password: "))
         print("Your password is:", passwordGenerator(passwordLength))
+    elif funcSelection == "rockPaperScissors":
+        rps()
 
 while True:
     userInput = input("Enter a function name or 'quit' to exit. Enter help to get more info: ")
