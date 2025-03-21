@@ -1,6 +1,9 @@
+import datetime
+import time
 import random
+import winsound
 
-supportedFunctions = ["calculator", "guessingGame", "passwordGenerator", "rockPaperScissors"]
+supportedFunctions = ["calculator", "guessingGame", "alarmClock", "passwordGenerator", "rockPaperScissors"]
 
 def calculate(num1, num2, operator):
     if operator == "+":
@@ -29,6 +32,31 @@ def guessingGame():
         else:
             print("Correct! It took you", attempts, "attempts")
             break
+
+def alarmClock(alarmTime):
+    currentTime = datetime.datetime.now()
+
+    timeDifference = (alarmTime - currentTime).total_seconds()
+
+    if timeDifference < 0:
+        print("Invalid time. Please enter a time in the future")
+
+    print("Alarm set for:", alarmTime)
+    
+    time.sleep(timeDifference)
+
+    #TODO: Replace with system agnostic method, currently windows only
+    #TODO: Add ability to hold alarm and allow for other functions to be run
+    # Play alarm sound (beep at 1000Hz for 2 seconds)
+    print("ALARM! WAKE UP!")
+    duration = 2000  # milliseconds
+    freq = 1000  # Hz
+    
+    # Repeat beep 3 times
+    for _ in range(3):
+        winsound.Beep(freq, duration)
+        time.sleep(0.5)
+
 
 def passwordGenerator(passwordLength):
     password = ""
@@ -92,6 +120,14 @@ def main(funcSelection):
         print("Your password is:", passwordGenerator(passwordLength))
     elif funcSelection == "rockPaperScissors":
         rps()
+    elif funcSelection == "alarmClock":
+        # Get user input for alarm time
+        alarm_input = input("Enter alarm time (YYYY-MM-DD HH:MM:SS): ")
+        try:
+            alarmTime = datetime.datetime.strptime(alarm_input, "%Y-%m-%d %H:%M:%S")
+            alarmClock(alarmTime)
+        except ValueError:
+            print("Invalid date format. Please use YYYY-MM-DD HH:MM:SS")
 
 while True:
     userInput = input("Enter a function name or 'quit' to exit. Enter help to get more info: ")
