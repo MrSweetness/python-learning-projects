@@ -3,7 +3,8 @@ import time
 import random
 import winsound
 
-supportedFunctions = ["calculator", "guessingGame", "alarmClock", "passwordGenerator", "rockPaperScissors"]
+supportedFunctions = ["calculator", "toDoList", "guessingGame", "alarmClock", "passwordGenerator", "rockPaperScissors"]
+taskList = {}
 
 def calculate(num1, num2, operator):
     if operator == "+":
@@ -16,6 +17,40 @@ def calculate(num1, num2, operator):
         return num1 / num2
     else:
         return "Invalid operator"
+    
+def toDoList():
+    while True:
+        print("---To-Do List Menu:---")
+        print("1. View tasks")
+        print("2. Add task")
+        print("3. Remove task")
+        print("4. Update task status")
+        print("5. Exit")
+
+        choice = int(input("Enter your choice: "))
+
+        if choice == 1:
+            print("Tasks:")
+            for task in taskList:
+                print("-", task, ":", taskList[task])
+        elif choice == 2:
+            task = input("Enter the task: ")
+            taskList[task] = "Incomplete"
+        elif choice == 3:
+            task = input("Enter the task to remove: ")
+            if task in taskList:
+                del taskList[task]
+            else:
+                print("Task not found")
+        elif choice == 4:
+            task = input("Enter the task to update: ")
+            if task in taskList:
+                status = input("Enter the status (Complete/Incomplete): ")
+                taskList[task] = status
+            else:
+                print("Task not found")
+        elif choice == 5:
+            break
     
 def guessingGame():
     number = random.randint(1, 100)
@@ -128,6 +163,8 @@ def main(funcSelection):
             alarmClock(alarmTime)
         except ValueError:
             print("Invalid date format. Please use YYYY-MM-DD HH:MM:SS")
+    elif funcSelection == "toDoList":
+        toDoList()
 
 while True:
     userInput = input("Enter a function name or 'quit' to exit. Enter help to get more info: ")
