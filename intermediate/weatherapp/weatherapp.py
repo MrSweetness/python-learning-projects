@@ -22,7 +22,7 @@ def get_weather(city):
     if not api_key:
         raise ValueError("API key not found. Please set the OPENWEATHER_API_KEY environment variable.")
     
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=imperial"
     response = requests.get(url)
     if response.status_code != 200:
         raise Exception(f"Error fetching weather data: {response.status_code} - {response.text}")
@@ -31,6 +31,10 @@ def get_weather(city):
     if 'main' not in data:
         raise Exception("Invalid response from weather API.")
     
+    #print data to file
+    #with open("intermediate/weatherapp/weather_data.json", "w") as f:
+    #    json.dump(data, f, indent=4)
+
     return {
         'city': data['name'],
         'temperature': data['main']['temp'],
@@ -40,3 +44,6 @@ def get_weather(city):
 
 myCity = input("Enter the name of the city: ")
 weather_data = get_weather(myCity)
+
+print(weather_data)
+pause = input("Press Enter to continue...")
