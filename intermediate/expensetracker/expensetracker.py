@@ -33,3 +33,4 @@ while True:
         break
     else:
         print("Invalid input. Please enter 'yes' or 'no'.")
+# Note: The trackExpense function is a placeholder and does not actually save the expense.
