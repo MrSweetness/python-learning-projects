@@ -34,3 +34,14 @@ while True:
     else:
         print("Invalid input. Please enter 'yes' or 'no'.")
 # Note: The trackExpense function is a placeholder and does not actually save the expense.
+
+"""
+TODO List:
+- Implement the trackExpense function to save the expense to a file or database.
+- Add error handling for invalid inputs (e.g., non-numeric expense amount).
+- Implement a way to view all tracked expenses.
+- Add functionality to edit or delete existing expenses.
+- Implement a summary feature to calculate total expenses for a given period.
+- Add a feature to categorize expenses (e.g., food, transport, entertainment).
+- Implement a user-friendly interface (e.g., using a GUI library or web framework).
+"""
