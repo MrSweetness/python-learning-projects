@@ -1,8 +1,28 @@
 import datetime
 import os
 
+def validateIsNotDuplicateExpense(expenseDescr, expenseAmount, expenseDate):
+    # Check if the file exists
+    if os.path.exists("c:\dev\junk\expenses.txt"):
+        with open("c:\dev\junk\expenses.txt", "r") as file:
+            for line in file:
+                # Split the line into components
+                descr, amount, date = line.strip().split(",")
+                # Check if the expense already exists
+                if descr == expenseDescr.lower() and amount == expenseAmount and date == expenseDate.strftime('%Y-%m-%d'):
+                    return True  # Duplicate found
+    return False  # No duplicates
+
 def trackExpense(expenseDescr, expenseAmount, expenseDate):
     print(f"Tracking expense: {expenseDescr}, Amount: {expenseAmount}, Date: {expenseDate.strftime('%Y-%m-%d')}")
+    # save to file
+    try:
+        with open("c:\dev\junk\expenses.txt", "a") as file:
+            file.write(f"{expenseDescr},{expenseAmount},{expenseDate.strftime('%Y-%m-%d')}\n")
+    except Exception as e:
+        print(f"Error saving expense: {e}")
+        # Handle the error (e.g., log it, notify the user, etc.)
+        # For now, just print the error message
     pass
 
 while True:
@@ -17,14 +37,16 @@ while True:
 
             # Validate the date format (YYYY-MM-DD)
             try:
-                date_obj = datetime.strptime(expenseDate, "%Y-%m-%d").date()
-                #year, month, day = map(int, expenseDate.split('-'))
-                #if not (1 <= month <= 12 and 1 <= day <= 31 and len(str(year)) == 4):
-                #    raise ValueError("Invalid date")
+                date_obj = datetime.datetime.strptime(expenseDate, "%Y-%m-%d").date()
                 expenseDateValid = True
             except ValueError:
                 print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
                 continue
+        
+        # Check for duplicate expense
+        if validateIsNotDuplicateExpense(expenseDescr, expenseAmount, date_obj):
+            print("This expense already exists.")
+            continue
 
         trackExpense(expenseDescr, expenseAmount, date_obj)
         print("Expense added successfully!")
