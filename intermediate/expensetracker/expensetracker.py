@@ -1,6 +1,18 @@
 import datetime
 import os
 
+def validateIsNotDuplicateExpense(expenseDescr, expenseAmount, expenseDate):
+    # Check if the file exists
+    if os.path.exists("c:\dev\junk\expenses.txt"):
+        with open("c:\dev\junk\expenses.txt", "r") as file:
+            for line in file:
+                # Split the line into components
+                descr, amount, date = line.strip().split(",")
+                # Check if the expense already exists
+                if descr == expenseDescr.lower() and amount == expenseAmount and date == expenseDate.strftime('%Y-%m-%d'):
+                    return True  # Duplicate found
+    return False  # No duplicates
+
 def trackExpense(expenseDescr, expenseAmount, expenseDate):
     print(f"Tracking expense: {expenseDescr}, Amount: {expenseAmount}, Date: {expenseDate.strftime('%Y-%m-%d')}")
     # save to file
@@ -30,6 +42,11 @@ while True:
             except ValueError:
                 print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
                 continue
+        
+        # Check for duplicate expense
+        if validateIsNotDuplicateExpense(expenseDescr, expenseAmount, date_obj):
+            print("This expense already exists.")
+            continue
 
         trackExpense(expenseDescr, expenseAmount, date_obj)
         print("Expense added successfully!")
