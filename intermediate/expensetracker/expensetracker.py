@@ -38,9 +38,28 @@ def trackExpense(expenseDescr, expenseAmount, expenseDate):
         # For now, just print the error message
     pass
 
+def viewTrackedExpenses():
+    # Check if the file exists
+    if os.path.exists(expenseFilePath):
+        with open(expenseFilePath, "r") as file:
+            print("Tracked Expenses:")
+            for line in file:
+                print(line.strip())
+    else:
+        print("No expenses tracked yet.")
+
 while True:
-    userChoice = input("Do you want to add a new expense? (yes/no): ").strip().lower()
-    if userChoice == 'yes':
+    print("--------------------------------------------")
+    print("Welcome to the Expense Tracker!")
+    print("1. View tracked expenses")
+    print("2. Add a new expense")
+    print("3. Exit")
+    choice = input("Please choose an option (1-3): ").strip()
+
+    if choice == '1':
+        viewTrackedExpenses()
+        continue
+    elif choice == '2':
         expenseDescr = input("Enter the expense description: ")
         expenseAmount = validateExpenseAmountEntry()
         
@@ -63,16 +82,15 @@ while True:
 
         trackExpense(expenseDescr, expenseAmount, date_obj)
         print("Expense added successfully!")
-    elif userChoice == 'no':
+    elif choice == '3':
         print("Exiting the expense tracker.")
         break
     else:
-        print("Invalid input. Please enter 'yes' or 'no'.")
-# Note: The trackExpense function is a placeholder and does not actually save the expense.
-
+        print("Invalid choice. Please select a valid option.")
+        continue
+        
 """
 TODO List:
-- Implement a way to view all tracked expenses.
 - Add functionality to edit or delete existing expenses.
 - Implement a summary feature to calculate total expenses for a given period.
 - Add a feature to categorize expenses (e.g., food, transport, entertainment).
