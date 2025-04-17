@@ -1,6 +1,17 @@
 import datetime
 import os
 
+def validateExpenseAmountEntry():
+    while True:
+        try:
+            expenseAmount = float(input("Enter the expense amount: "))
+            if expenseAmount <= 0:
+                print("Expense amount must be greater than 0.")
+                continue
+            return expenseAmount
+        except ValueError:
+            print("Invalid input. Please enter a numeric value for the expense amount.")
+
 def validateIsNotDuplicateExpense(expenseDescr, expenseAmount, expenseDate):
     # Check if the file exists
     if os.path.exists("c:\dev\junk\expenses.txt"):
@@ -29,7 +40,7 @@ while True:
     userChoice = input("Do you want to add a new expense? (yes/no): ").strip().lower()
     if userChoice == 'yes':
         expenseDescr = input("Enter the expense description: ")
-        expenseAmount = input("Enter the expense amount: ")
+        expenseAmount = validateExpenseAmountEntry()
         
         expenseDateValid = False
         while expenseDateValid == False:
@@ -59,8 +70,6 @@ while True:
 
 """
 TODO List:
-- Implement the trackExpense function to save the expense to a file or database.
-- Add error handling for invalid inputs (e.g., non-numeric expense amount).
 - Implement a way to view all tracked expenses.
 - Add functionality to edit or delete existing expenses.
 - Implement a summary feature to calculate total expenses for a given period.
