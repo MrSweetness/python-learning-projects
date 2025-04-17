@@ -1,6 +1,8 @@
 import datetime
 import os
 
+expenseFilePath = "c:\dev\junk\expenses.txt"
+
 def validateExpenseAmountEntry():
     while True:
         try:
@@ -14,13 +16,13 @@ def validateExpenseAmountEntry():
 
 def validateIsNotDuplicateExpense(expenseDescr, expenseAmount, expenseDate):
     # Check if the file exists
-    if os.path.exists("c:\dev\junk\expenses.txt"):
-        with open("c:\dev\junk\expenses.txt", "r") as file:
+    if os.path.exists(expenseFilePath):
+        with open(expenseFilePath, "r") as file:
             for line in file:
                 # Split the line into components
                 descr, amount, date = line.strip().split(",")
                 # Check if the expense already exists
-                if descr == expenseDescr.lower() and amount == expenseAmount and date == expenseDate.strftime('%Y-%m-%d'):
+                if descr == expenseDescr and float(amount) == expenseAmount and date == expenseDate.strftime('%Y-%m-%d'):
                     return True  # Duplicate found
     return False  # No duplicates
 
@@ -28,7 +30,7 @@ def trackExpense(expenseDescr, expenseAmount, expenseDate):
     print(f"Tracking expense: {expenseDescr}, Amount: {expenseAmount}, Date: {expenseDate.strftime('%Y-%m-%d')}")
     # save to file
     try:
-        with open("c:\dev\junk\expenses.txt", "a") as file:
+        with open(expenseFilePath, "a") as file:
             file.write(f"{expenseDescr},{expenseAmount},{expenseDate.strftime('%Y-%m-%d')}\n")
     except Exception as e:
         print(f"Error saving expense: {e}")
