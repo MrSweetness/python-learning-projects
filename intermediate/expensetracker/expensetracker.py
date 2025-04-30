@@ -48,6 +48,20 @@ def viewTrackedExpenses():
     else:
         print("No expenses tracked yet.")
 
+def searchTrackedExpenses(expenseDescr):
+    # Check if the file exists
+    if os.path.exists(expenseFilePath):
+        with open(expenseFilePath, "r") as file:
+            print("Tracked Expenses:")
+            for line in file:
+                # Split the line into components
+                descr, amount, date = line.strip().split(",")
+                # Check if the expense matches the search description
+                if expenseDescr.lower() in descr.lower():
+                    print(line.strip())
+    else:
+        print("No expenses tracked yet.")
+
 while True:
     print("--------------------------------------------")
     print("Welcome to the Expense Tracker!")
