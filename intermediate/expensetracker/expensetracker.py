@@ -62,13 +62,31 @@ def searchTrackedExpenses(expenseDescr):
     else:
         print("No expenses tracked yet.")
 
+def editTrackedExpense(oldDescr, newDescr, newAmount, newDate):
+    # Check if the file exists
+    if os.path.exists(expenseFilePath):
+        with open(expenseFilePath, "r") as file:
+            lines = file.readlines()
+        
+        with open(expenseFilePath, "w") as file:
+            for line in lines:
+                descr, amount, date = line.strip().split(",")
+                if descr == oldDescr:
+                    file.write(f"{newDescr},{newAmount},{newDate.strftime('%Y-%m-%d')}\n")
+                else:
+                    file.write(line)
+    else:
+        print("No expenses tracked yet.")
+
 while True:
     print("--------------------------------------------")
     print("Welcome to the Expense Tracker!")
     print("1. View tracked expenses")
     print("2. Add a new expense")
-    print("3. Exit")
-    choice = input("Please choose an option (1-3): ").strip()
+    print("3. Edit an existing expense")
+    print("4. Search for an expense")
+    print("5. Exit")
+    choice = input("Please choose an option (1-5): ").strip()
 
     if choice == '1':
         viewTrackedExpenses()
@@ -97,6 +115,29 @@ while True:
         trackExpense(expenseDescr, expenseAmount, date_obj)
         print("Expense added successfully!")
     elif choice == '3':
+        oldDescr = input("Enter the description of the expense you want to edit: ")
+        newDescr = input("Enter the new description: ")
+        newAmount = validateExpenseAmountEntry()
+        
+        newDateValid = False
+        while newDateValid == False:
+            newDate = input("Enter the new date of the expense (YYYY-MM-DD): ")
+
+            # Validate the date format (YYYY-MM-DD)
+            try:
+                date_obj = datetime.datetime.strptime(newDate, "%Y-%m-%d").date()
+                newDateValid = True
+            except ValueError:
+                print("Invalid date format. Please enter the date in YYYY-MM-DD format.")
+                continue
+        
+        editTrackedExpense(oldDescr, newDescr, newAmount, date_obj)
+        print("Expense edited successfully!")
+    elif choice == '4':
+        expenseDescr = input("Enter the description of the expense you want to search for: ")
+        searchTrackedExpenses(expenseDescr)
+        continue
+    elif choice == '5':
         print("Exiting the expense tracker.")
         break
     else:
