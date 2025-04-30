@@ -78,6 +78,20 @@ def editTrackedExpense(oldDescr, newDescr, newAmount, newDate):
     else:
         print("No expenses tracked yet.")
 
+def deleteTrackedExpense(expenseDescr):
+    # Check if the file exists
+    if os.path.exists(expenseFilePath):
+        with open(expenseFilePath, "r") as file:
+            lines = file.readlines()
+        
+        with open(expenseFilePath, "w") as file:
+            for line in lines:
+                descr, amount, date = line.strip().split(",")
+                if descr != expenseDescr:
+                    file.write(line)
+    else:
+        print("No expenses tracked yet.")
+
 while True:
     print("--------------------------------------------")
     print("Welcome to the Expense Tracker!")
@@ -85,8 +99,9 @@ while True:
     print("2. Add a new expense")
     print("3. Edit an existing expense")
     print("4. Search for an expense")
-    print("5. Exit")
-    choice = input("Please choose an option (1-5): ").strip()
+    print("5. Delete an expense")
+    print("E. Exit")
+    choice = input("Please choose an option (1-5) or (E): ").strip()
 
     if choice == '1':
         viewTrackedExpenses()
@@ -138,6 +153,11 @@ while True:
         searchTrackedExpenses(expenseDescr)
         continue
     elif choice == '5':
+        expenseDescr = input("Enter the description of the expense you want to delete: ")
+        deleteTrackedExpense(expenseDescr)
+        print("Expense deleted successfully!")
+        continue
+    elif choice == 'E' or choice == 'e':
         print("Exiting the expense tracker.")
         break
     else:
@@ -146,7 +166,6 @@ while True:
         
 """
 TODO List:
-- Add functionality to edit or delete existing expenses.
 - Implement a summary feature to calculate total expenses for a given period.
 - Add a feature to categorize expenses (e.g., food, transport, entertainment).
 - Implement a user-friendly interface (e.g., using a GUI library or web framework).
